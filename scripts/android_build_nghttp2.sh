@@ -1,8 +1,10 @@
 #!/bin/sh
 export TOOL=arm-linux-androideabi
-export TOOL2=armv7a-linux-androideabi1
+export TOOL2=armv7a-linux-androideabi
+export ARCH=arm
 
-export PREFIX=`pwd`/../build/nghttp2
+export PWD=`pwd`
+export PREFIX=$PWD/../build/${ARCH}/nghttp2
 export TOOLCHAIN=/opt/ndk/android-ndk-r19c/toolchains/llvm/prebuilt/linux-x86_64
 export PATH="$TOOLCHAIN"/bin:"$PATH"
 export CC="$TOOLCHAIN"/bin/${TOOL2}21-clang 
@@ -16,10 +18,11 @@ export RANLIB=$TOOLCHAIN/bin/${TOOL}-ranlib
 export STRIP=$TOOLCHAIN/bin/${TOOL}-strip
 
 echo "$PREFIX"
+echo "$CC"
 	
 ./configure \
     --enable-shared \
-    --host=arm-linux-androideabi \
+    --host=${TOOL} \
     --build=`dpkg-architecture -qDEB_BUILD_GNU_TYPE` \
     --prefix="$PREFIX" \
     --without-libxml2 \
@@ -28,5 +31,5 @@ echo "$PREFIX"
     --disable-threads    
 
 if [ $? -eq 0 ]; then
-	make -j2 && make install
+	make -j16 && make install
 fi
