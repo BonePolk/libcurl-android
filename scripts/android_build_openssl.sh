@@ -237,5 +237,5 @@ if [ ! -z "$VERBOSE" ] && [ "$VERBOSE" != "0" ]; then
   echo "CROSS_COMPILE: $CROSS_COMPILE"
   echo "ANDROID_DEV: $ANDROID_DEV"
   
-  ./Configure android-arm --prefix=`pwd`/../build/openssl -D__ANDROID_API__=19 && make -j16 && make install
+  #./Configure android-arm --prefix=`pwd`/../build/openssl -D__ANDROID_API__=19 && make -j16 && make install
 fi
