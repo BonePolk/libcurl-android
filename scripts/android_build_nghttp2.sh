@@ -1,7 +1,23 @@
 #!/bin/sh
-export TOOL=arm-linux-androideabi
-export TOOL2=armv7a-linux-androideabi
-export ARCH=arm
+
+#arm-linux-androideabi
+#aarch64-linux-android
+#i686-linux-android
+#x86_64-linux-android
+
+#armv7a-linux-androideabi21
+#aarch64-linux-android21
+#i686-linux-android21
+#x86_64-linux-android21
+
+#arm
+#arm64
+#x86
+#x86_64
+
+export TOOL=x86_64-linux-android
+export TOOL2=x86_64-linux-android
+export ARCH=x86_64
 
 export PWD=`pwd`
 export PREFIX=$PWD/../build/${ARCH}/nghttp2
