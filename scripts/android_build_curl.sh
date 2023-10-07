@@ -5,10 +5,10 @@
 #i686-linux-android
 #x86_64-linux-android
 
-#armv7a-linux-androideabi21
-#aarch64-linux-android21
-#i686-linux-android21
-#x86_64-linux-android21
+#armv7a-linux-androideabi
+#aarch64-linux-android
+#i686-linux-android
+#x86_64-linux-android
 
 #arm
 #arm64
@@ -16,9 +16,9 @@
 #x86_64
 
 
-export TOOL2=arm-linux-androideabi
-export TOOL=arm-linux-androideabi
-export ARCH=arm
+export TOOL2=x86_64-linux-android
+export TOOL=x86_64-linux-android
+export ARCH=x86_64
 
 export TOOLCHAIN=/opt/ndk/android-ndk-r19c/toolchains/llvm/prebuilt/linux-x86_64
 export CC="$TOOLCHAIN"/bin/${TOOL}21-clang 
