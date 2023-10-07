@@ -36,8 +36,8 @@ export CXXFLAGS="${CFLAGS} -frtti -fexceptions"
 ./configure --prefix=`pwd`/../build/${ARCH}/libcurl/ \
        --with-sysroot=$TOOLCHAIN/sysroot \
        --host=arm-linux-androideabi \
-       --with-ssl=`pwd`/../build/openssl/ \
-       --with-nghttp2=`pwd`/../build/nghttp2/ \
+       --with-ssl=`pwd`/../build/${ARCH}/openssl/ \
+       --with-nghttp2=`pwd`/../build/${ARCH}/nghttp2/ \
        --enable-ipv6 \
        --enable-static \
        --enable-threaded-resolver \
