@@ -1,9 +1,12 @@
 #!/bin/bash
 
-export TOOLCHAIN=/opt/ndk/android-ndk-r19c/toolchains/llvm/prebuilt/linux-x86_64
-export CC="$TOOLCHAIN"/bin/armv7a-linux-androideabi19-clang 
-export CXX="$TOOLCHAIN"/bin/armv7a-linux-androideabi19-clang++ 
+export TOOL2=arm-linux-androideabi
 export TOOL=arm-linux-androideabi
+
+export TOOLCHAIN=/opt/ndk/android-ndk-r19c/toolchains/llvm/prebuilt/linux-x86_64
+export CC="$TOOLCHAIN"/bin/${TOOL}21-clang 
+export CXX="$TOOLCHAIN"/bin/${TOOL}21-clang++ 
+
 export LD=$TOOLCHAIN/bin/${TOOL}-ld
 export AR=$TOOLCHAIN/bin/${TOOL}-ar
 export RANLIB=$TOOLCHAIN/bin/${TOOL}-ranlib

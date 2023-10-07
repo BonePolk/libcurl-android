@@ -1,13 +1,15 @@
 #!/bin/sh
+export TOOL=arm-linux-androideabi
+export TOOL2=armv7a-linux-androideabi1
+
 export PREFIX=`pwd`/../build/nghttp2
 export TOOLCHAIN=/opt/ndk/android-ndk-r19c/toolchains/llvm/prebuilt/linux-x86_64
 export PATH="$TOOLCHAIN"/bin:"$PATH"
-export CC="$TOOLCHAIN"/bin/armv7a-linux-androideabi19-clang 
-export CXX="$TOOLCHAIN"/bin/armv7a-linux-androideabi19-clang++ 
+export CC="$TOOLCHAIN"/bin/${TOOL2}21-clang 
+export CXX="$TOOLCHAIN"/bin/${TOOL2}21-clang++ 
 export CPPFLAGS="-fPIE -I$PREFIX/include" 
 export PKG_CONFIG_LIBDIR="$PREFIX/lib/pkgconfig" 
 export LDFLAGS="-fPIE -pie -L$PREFIX/lib"
-export TOOL=arm-linux-androideabi
 export LD=$TOOLCHAIN/bin/${TOOL}-ld
 export AR=$TOOLCHAIN/bin/${TOOL}-ar
 export RANLIB=$TOOLCHAIN/bin/${TOOL}-ranlib
