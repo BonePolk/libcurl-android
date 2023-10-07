@@ -11,7 +11,7 @@
 
 export ANDROID_NDK_HOME=/opt/ndk/android-ndk-r19c
 export ANDROID_NDK_ROOT=/opt/ndk/android-ndk-r19c
-export PATH="$ANDROID_NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64/bin:$ANDROID_NDK_ROOT/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64/bin":$PATH
+export PATH="$ANDROID_NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64/bin:$ANDROID_NDK_ROOT/toolchains/x86_64-4.9/prebuilt/linux-x86_64/bin":$PATH
 
 
 
@@ -28,12 +28,24 @@ _ANDROID_NDK="android-ndk-r19c"
 # list in $ANDROID_NDK_ROOT/toolchains. This value is always used.
 # _ANDROID_EABI="x86-4.6"
 # _ANDROID_EABI="arm-linux-androideabi-4.6"
-_ANDROID_EABI="arm-linux-androideabi-4.9"
+
+#arm-linux-androideabi-4.9
+#aarch64-linux-android-4.9
+#x86-4.9
+#x86_64-4.9
+
+_ANDROID_EABI="x86_64-4.9"
 
 # Set _ANDROID_ARCH to the architecture you are building for.
 # This value is always used.
 # _ANDROID_ARCH=arch-x86
-_ANDROID_ARCH=arch-arm
+
+#arch-arm
+#arch-arm64
+#arch-x86
+#arch-x86_64
+
+_ANDROID_ARCH=arch-x86_64
 
 # Set _ANDROID_API to the API you want to use. You should set it
 # to one of: android-14, android-9, android-8, android-14, android-5
@@ -42,7 +54,7 @@ _ANDROID_ARCH=arch-arm
 # Android 5.0, there will likely be another platform added (android-22?).
 # This value is always used.
 # _ANDROID_API="android-14"
-_ANDROID_API="android-19"
+_ANDROID_API="android-21"
 # _ANDROID_API="android-19"
 
 #####################################################################
@@ -127,9 +139,15 @@ case $_ANDROID_ARCH in
 	arch-arm)	  
       ANDROID_TOOLS="arm-linux-androideabi-ranlib arm-linux-androideabi-ld"
 	  ;;
-	arch-x86)	  
-      ANDROID_TOOLS="i686-linux-android-gcc i686-linux-android-ranlib i686-linux-android-ld"
+	arch-arm64)	  
+      ANDROID_TOOLS="aarch64-linux-android-gcc aarch64-linux-android-ranlib aarch64-linux-android-ld"
 	  ;;	  
+    arch-x86)	  
+      ANDROID_TOOLS="i686-linux-android-gcc i686-linux-android-ranlib i686-linux-android-ld"
+	  ;;	
+    arch-x86_64)	  
+      ANDROID_TOOLS="x86_64-linux-android-ranlib x86_64-linux-android-ld"
+	  ;;	
 	*)
 	  echo "ERROR ERROR ERROR"
 	  ;;
@@ -212,6 +230,22 @@ if [ "$_ANDROID_ARCH" == "arch-x86" ]; then
 	export CROSS_COMPILE="i686-linux-android-"
 fi
 
+if [ "$_ANDROID_ARCH" == "arch-x86_64" ]; then
+	export MACHINE=x86_64
+	export RELEASE=2.6.37
+	export SYSTEM=android
+	export ARCH=x86_64
+	export CROSS_COMPILE="x86_64-linux-android-"
+fi
+
+if [ "$_ANDROID_ARCH" == "arch-arm64" ]; then
+	export MACHINE=i686
+	export RELEASE=2.6.37
+	export SYSTEM=android
+	export ARCH=x86
+	export CROSS_COMPILE="i686-linux-android-"
+fi
+
 # For the Android toolchain
 # https://android.googlesource.com/platform/ndk/+/ics-mr0/docs/STANDALONE-TOOLCHAIN.html
 export ANDROID_SYSROOT="$ANDROID_NDK_ROOT/platforms/$_ANDROID_API/$_ANDROID_ARCH"
@@ -237,5 +271,5 @@ if [ ! -z "$VERBOSE" ] && [ "$VERBOSE" != "0" ]; then
   echo "CROSS_COMPILE: $CROSS_COMPILE"
   echo "ANDROID_DEV: $ANDROID_DEV"
   
-  #./Configure android-arm --prefix=`pwd`/../build/openssl -D__ANDROID_API__=19 && make -j16 && make install
+  ./Configure android-x86_64 --prefix=`pwd`/../build/openssl -D__ANDROID_API__=21 && make -j16 && make install
 fi
