@@ -15,6 +15,7 @@
 #x86
 #x86_64
 
+echo "%0"
 
 export TOOL2=x86_64-linux-android
 export TOOL=x86_64-linux-android
