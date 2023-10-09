@@ -31,8 +31,32 @@ _ANDROID_NDK="android-ndk-r19c"
 #aarch64-linux-android-4.9
 #x86-4.9
 #x86_64-4.9
+case $1 in
+	arm)	  
+	  echo "Building for arm"
+      _ANDROID_EABI="arm-linux-androideabi-4.9"
+      _ANDROID_ARCH=arch-arm
+	  ;;
+	arm64)	  
+      echo "Building for arm64"
+      _ANDROID_EABI="aarch64-linux-android-4.9"
+      _ANDROID_ARCH=arch-arm64
+      ;;	  
+    x86)	  
+      echo "Building for x86"
+      _ANDROID_EABI="x86-4.9"
+      _ANDROID_ARCH=arch-x86
+      ;;	
+    x86_64)	  
+      echo "Building for x86_64"
+      _ANDROID_EABI="x86_64-4.9"
+      _ANDROID_ARCH=arch-x86_64
+      ;;	
+	*)
+	  echo "not supported arch"
+	  ;;
+esac
 
-_ANDROID_EABI="x86_64-4.9"
 export PATH="$ANDROID_NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64/bin:$ANDROID_NDK_ROOT/toolchains/$_ANDROID_EABI/prebuilt/linux-x86_64/bin":$PATH
 
 
@@ -46,7 +70,7 @@ export PATH="$ANDROID_NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64/bin:$ANDROI
 #arch-x86
 #arch-x86_64
 
-_ANDROID_ARCH=arch-x86_64
+
 
 # Set _ANDROID_API to the API you want to use. You should set it
 # to one of: android-14, android-9, android-8, android-14, android-5
@@ -272,5 +296,5 @@ if [ ! -z "$VERBOSE" ] && [ "$VERBOSE" != "0" ]; then
   echo "CROSS_COMPILE: $CROSS_COMPILE"
   echo "ANDROID_DEV: $ANDROID_DEV"
   
-  ./Configure "android-$ARCH" --prefix=`pwd`/../build/${ARCH}/openssl -D__ANDROID_API__=21 && make -j16 && make install
+   ./Configure "android-$ARCH" --prefix=`pwd`/../build/${ARCH}/openssl -D__ANDROID_API__=21 && make -j16 && make install
 fi
