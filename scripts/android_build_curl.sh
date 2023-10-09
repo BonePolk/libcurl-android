@@ -58,6 +58,7 @@ export ARCH_FLAGS="-mthumb"
 export CFLAGS="${ARCH_FLAGS} -fpic -ffunction-sections -funwind-tables -fstack-protector-all -fno-strict-aliasing -finline-limit=64"
 export CXXFLAGS="${CFLAGS} -frtti -fexceptions"
 
+make clean
 ./configure --prefix=`pwd`/../build/${ARCH}/libcurl/ \
        --with-sysroot=$TOOLCHAIN/sysroot \
        --host=arm-linux-androideabi \

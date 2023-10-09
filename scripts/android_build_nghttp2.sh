@@ -15,9 +15,35 @@
 #x86
 #x86_64
 
-export TOOL=x86_64-linux-android
-export TOOL2=x86_64-linux-android
-export ARCH=x86_64
+case $1 in
+	arm)	  
+	  echo "Building for arm"
+	  export TOOL=arm-linux-androideabi
+	  export TOOL2=armv7a-linux-androideabi
+	  export ARCH=arm
+	  ;;
+	arm64)	  
+      echo "Building for arm64"
+	  export TOOL=aarch64-linux-android
+	  export TOOL2=aarch64-linux-android
+	  export ARCH=arm64
+      ;;	  
+    x86)	  
+      echo "Building for x86"
+	  export TOOL=i686-linux-android
+	  export TOOL2=i686-linux-android
+	  export ARCH=x86
+      ;;	
+    x86_64)	  
+      echo "Building for x86_64"
+	  export TOOL=x86_64-linux-android
+	  export TOOL2=x86_64-linux-android
+	  export ARCH=x86_64
+      ;;	
+	*)
+	  echo "not supported arch"
+	  ;;
+esac
 
 export PWD=`pwd`
 export PREFIX=$PWD/../build/${ARCH}/nghttp2
@@ -35,6 +61,8 @@ export STRIP=$TOOLCHAIN/bin/${TOOL}-strip
 
 echo "$PREFIX"
 echo "$CC"
+	
+make clean
 	
 ./configure \
     --enable-shared \
