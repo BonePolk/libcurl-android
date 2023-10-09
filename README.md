@@ -26,6 +26,8 @@ You can download prebuilded libs from [releases](https://github.com/BonePolk/lib
 
 ## Android.mk
 
+I don't tested this
+
 ```
 include $(CLEAR_VARS)
 
@@ -33,12 +35,24 @@ LOCAL_MODULE := curl
 LOCAL_SRC_FILES := Your cURL Library Path/$(TARGET_ARCH_ABI)/libcurl.a
 include $(PREBUILT_STATIC_LIBRARY)
 
+LOCAL_MODULE := crypto
+LOCAL_SRC_FILES := Your OpenSSL Library Path/$(TARGET_ARCH_ABI)/libcrypto.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+LOCAL_MODULE := crypto
+LOCAL_SRC_FILES := Your OpenSSL Library Path/$(TARGET_ARCH_ABI)/libssl.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+LOCAL_MODULE := nghttp2
+LOCAL_SRC_FILES := Your ngHttp2 Library Path/$(TARGET_ARCH_ABI)/libnghttp2.a
+include $(PREBUILT_STATIC_LIBRARY)
+
 
 LOCAL_C_INCLUDES := \
 	$(LOCAL_PATH)/Your Openssl Include Path/openssl \
 	$(LOCAL_PATH)/Your cURL Include Path/curl
 
-LOCAL_STATIC_LIBRARIES := libcurl
+LOCAL_STATIC_LIBRARIES := libcurl libcrypto libssl libnghttp2
 
 LOCAL_LDLIBS := -lz
 ```
@@ -47,17 +61,17 @@ LOCAL_LDLIBS := -lz
 Define ssl, crypto, curl as STATIC IMPORTED libraries.
 
 ```
-add_library(crypto STATIC IMPORTED)
-set_target_properties(crypto
-  PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/libs/${ANDROID_ABI}/libcrypto.a)
+add_library(local_crypto STATIC IMPORTED)
+add_library(local_openssl STATIC IMPORTED)
+add_library(local_nghttp2 STATIC IMPORTED)
+add_library(local_curl STATIC IMPORTED)
 
-add_library(ssl STATIC IMPORTED)
-set_target_properties(ssl
-  PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/libs/${ANDROID_ABI}/libssl.a)
+set_target_properties(local_crypto PROPERTIES IMPORTED_LOCATION  ${CMAKE_SOURCE_DIR}/libs/${ANDROID_ABI}/libcrypto.a)
+set_target_properties(local_openssl PROPERTIES IMPORTED_LOCATION  ${CMAKE_SOURCE_DIR}/libs/${ANDROID_ABI}/libssl.a)
+set_target_properties(local_nghttp2 PROPERTIES IMPORTED_LOCATION  ${CMAKE_SOURCE_DIR}/libs/${ANDROID_ABI}/libnghttp2.a)
+set_target_properties(local_curl PROPERTIES IMPORTED_LOCATION  ${CMAKE_SOURCE_DIR}/libs/${ANDROID_ABI}/libcurl.a)
 
-add_library(curl STATIC IMPORTED)
-set_target_properties(curl
-  PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/libs/${ANDROID_ABI}/libcurl.a)
+
 ```
 
 Then link these libraries with your target, e.g.
@@ -66,7 +80,10 @@ Then link these libraries with your target, e.g.
 target_link_libraries( # Specifies the target library.
                        native-lib
 
-                       curl
-                       ssl
-                       crypto
-                       )
+                       log
+                       z
+                       local_curl
+                       local_nghttp2
+                       local_openssl
+                       local_crypto
+)
