@@ -15,15 +15,39 @@
 #x86
 #x86_64
 
-echo "%0"
-
-export TOOL2=x86_64-linux-android
-export TOOL=x86_64-linux-android
-export ARCH=x86_64
+case $1 in
+	arm)	  
+	  echo "Building for arm"
+	  export TOOL=arm-linux-androideabi
+	  export TOOL2=armv7a-linux-androideabi
+	  export ARCH=arm
+	  ;;
+	arm64)	  
+      echo "Building for arm64"
+	  export TOOL=aarch64-linux-android
+	  export TOOL2=aarch64-linux-android
+	  export ARCH=arm64
+      ;;	  
+    x86)	  
+      echo "Building for x86"
+	  export TOOL=i686-linux-android
+	  export TOOL2=i686-linux-android
+	  export ARCH=x86
+      ;;	
+    x86_64)	  
+      echo "Building for x86_64"
+	  export TOOL=x86_64-linux-android
+	  export TOOL2=x86_64-linux-android
+	  export ARCH=x86_64
+      ;;	
+	*)
+	  echo "not supported arch"
+	  ;;
+esac
 
 export TOOLCHAIN=/opt/ndk/android-ndk-r19c/toolchains/llvm/prebuilt/linux-x86_64
-export CC="$TOOLCHAIN"/bin/${TOOL}21-clang 
-export CXX="$TOOLCHAIN"/bin/${TOOL}21-clang++ 
+export CC="$TOOLCHAIN"/bin/${TOOL2}21-clang 
+export CXX="$TOOLCHAIN"/bin/${TOOL2}21-clang++ 
 
 export LD=$TOOLCHAIN/bin/${TOOL}-ld
 export AR=$TOOLCHAIN/bin/${TOOL}-ar

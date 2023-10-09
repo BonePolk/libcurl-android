@@ -11,8 +11,6 @@
 
 export ANDROID_NDK_HOME=/opt/ndk/android-ndk-r19c
 export ANDROID_NDK_ROOT=/opt/ndk/android-ndk-r19c
-export PATH="$ANDROID_NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64/bin:$ANDROID_NDK_ROOT/toolchains/x86_64-4.9/prebuilt/linux-x86_64/bin":$PATH
-
 
 
 # Set ANDROID_NDK_ROOT to you NDK location. For example,
@@ -35,6 +33,9 @@ _ANDROID_NDK="android-ndk-r19c"
 #x86_64-4.9
 
 _ANDROID_EABI="x86_64-4.9"
+export PATH="$ANDROID_NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64/bin:$ANDROID_NDK_ROOT/toolchains/$_ANDROID_EABI/prebuilt/linux-x86_64/bin":$PATH
+
+
 
 # Set _ANDROID_ARCH to the architecture you are building for.
 # This value is always used.
@@ -140,10 +141,10 @@ case $_ANDROID_ARCH in
       ANDROID_TOOLS="arm-linux-androideabi-ranlib arm-linux-androideabi-ld"
 	  ;;
 	arch-arm64)	  
-      ANDROID_TOOLS="aarch64-linux-android-gcc aarch64-linux-android-ranlib aarch64-linux-android-ld"
+      ANDROID_TOOLS="aarch64-linux-android aarch64-linux-android-ranlib aarch64-linux-android-ld"
 	  ;;	  
     arch-x86)	  
-      ANDROID_TOOLS="i686-linux-android-gcc i686-linux-android-ranlib i686-linux-android-ld"
+      ANDROID_TOOLS="i686-linux-android i686-linux-android-ranlib i686-linux-android-ld"
 	  ;;	
     arch-x86_64)	  
       ANDROID_TOOLS="x86_64-linux-android-ranlib x86_64-linux-android-ld"
@@ -239,11 +240,11 @@ if [ "$_ANDROID_ARCH" == "arch-x86_64" ]; then
 fi
 
 if [ "$_ANDROID_ARCH" == "arch-arm64" ]; then
-	export MACHINE=i686
+	export MACHINE=aarch64
 	export RELEASE=2.6.37
 	export SYSTEM=android
-	export ARCH=x86
-	export CROSS_COMPILE="i686-linux-android-"
+	export ARCH=arm64
+	export CROSS_COMPILE="aarch64-linux-android-"
 fi
 
 # For the Android toolchain
@@ -271,5 +272,5 @@ if [ ! -z "$VERBOSE" ] && [ "$VERBOSE" != "0" ]; then
   echo "CROSS_COMPILE: $CROSS_COMPILE"
   echo "ANDROID_DEV: $ANDROID_DEV"
   
-  ./Configure android-x86_64 --prefix=`pwd`/../build/${ARCH}/openssl -D__ANDROID_API__=21 && make -j16 && make install
+  ./Configure "android-$ARCH" --prefix=`pwd`/../build/${ARCH}/openssl -D__ANDROID_API__=21 && make -j16 && make install
 fi
