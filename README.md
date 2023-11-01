@@ -22,7 +22,40 @@ You can download prebuilded libs from [releases](https://github.com/BonePolk/lib
 ```
   arm -> armeabi-v7a
   arm64 -> arm64-v8a
+  x86 -> x86
+  x86_64 -> x86_64
 ```
+
+## CMake
+Define ssl, crypto, curl as STATIC IMPORTED libraries.
+
+```
+add_library(local_crypto STATIC IMPORTED)
+add_library(local_openssl STATIC IMPORTED)
+add_library(local_nghttp2 STATIC IMPORTED)
+add_library(local_curl STATIC IMPORTED)
+
+set_target_properties(local_crypto PROPERTIES IMPORTED_LOCATION  ${CMAKE_SOURCE_DIR}/libs/${ANDROID_ABI}/libcrypto.a)
+set_target_properties(local_openssl PROPERTIES IMPORTED_LOCATION  ${CMAKE_SOURCE_DIR}/libs/${ANDROID_ABI}/libssl.a)
+set_target_properties(local_nghttp2 PROPERTIES IMPORTED_LOCATION  ${CMAKE_SOURCE_DIR}/libs/${ANDROID_ABI}/libnghttp2.a)
+set_target_properties(local_curl PROPERTIES IMPORTED_LOCATION  ${CMAKE_SOURCE_DIR}/libs/${ANDROID_ABI}/libcurl.a)
+
+
+```
+
+Then link these libraries with your target, e.g.
+
+```
+target_link_libraries( # Specifies the target library.
+                       native-lib
+
+                       log
+                       z
+                       local_curl
+                       local_nghttp2
+                       local_openssl
+                       local_crypto
+)
 
 ## Android.mk
 
@@ -56,34 +89,3 @@ LOCAL_STATIC_LIBRARIES := libcurl libcrypto libssl libnghttp2
 
 LOCAL_LDLIBS := -lz
 ```
-
-## CMake
-Define ssl, crypto, curl as STATIC IMPORTED libraries.
-
-```
-add_library(local_crypto STATIC IMPORTED)
-add_library(local_openssl STATIC IMPORTED)
-add_library(local_nghttp2 STATIC IMPORTED)
-add_library(local_curl STATIC IMPORTED)
-
-set_target_properties(local_crypto PROPERTIES IMPORTED_LOCATION  ${CMAKE_SOURCE_DIR}/libs/${ANDROID_ABI}/libcrypto.a)
-set_target_properties(local_openssl PROPERTIES IMPORTED_LOCATION  ${CMAKE_SOURCE_DIR}/libs/${ANDROID_ABI}/libssl.a)
-set_target_properties(local_nghttp2 PROPERTIES IMPORTED_LOCATION  ${CMAKE_SOURCE_DIR}/libs/${ANDROID_ABI}/libnghttp2.a)
-set_target_properties(local_curl PROPERTIES IMPORTED_LOCATION  ${CMAKE_SOURCE_DIR}/libs/${ANDROID_ABI}/libcurl.a)
-
-
-```
-
-Then link these libraries with your target, e.g.
-
-```
-target_link_libraries( # Specifies the target library.
-                       native-lib
-
-                       log
-                       z
-                       local_curl
-                       local_nghttp2
-                       local_openssl
-                       local_crypto
-)
