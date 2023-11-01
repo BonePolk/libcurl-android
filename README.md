@@ -56,6 +56,8 @@ target_link_libraries( # Specifies the target library.
                        local_openssl
                        local_crypto
 )
+```
+
 
 ## Android.mk
 
@@ -88,4 +90,3 @@ LOCAL_C_INCLUDES := \
 LOCAL_STATIC_LIBRARIES := libcurl libcrypto libssl libnghttp2
 
 LOCAL_LDLIBS := -lz
-```
